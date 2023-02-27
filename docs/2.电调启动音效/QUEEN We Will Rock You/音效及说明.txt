@@ -1,0 +1,22 @@
+HOW TO DO IT:
+
+RIGHT click an ESC to select it individually.
+
+Click on Music Editor
+
+Check the box that says "Music On"
+
+Set:
+LENGTH 15 INTERVAL 5
+
+ESC#1 
+G5 2 F#5 2 E5 2 D5 2 E5 4 E5 2 
+
+ESC#2
+G4 2 F#4 2 E4 2 D4 2 E4 4 E4 2 
+
+ESC#3
+G6 2 F#6 2 E6 2 D6 2 E6 4 E6 2 
+
+ESC#4 
+G5 2 F#5 2 E5 2 D5 2 E5 4 E5 2

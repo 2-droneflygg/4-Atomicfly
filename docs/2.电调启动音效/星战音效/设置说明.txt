@@ -1,0 +1,2 @@
+Set Gen. Length 10
+Set Gen. Interval 0

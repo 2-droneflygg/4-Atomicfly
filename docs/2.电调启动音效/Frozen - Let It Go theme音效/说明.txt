@@ -1,0 +1,3 @@
+Set Music On 
+Set Gen. Length 15
+Set Gen. Interval 0
