@@ -2,7 +2,7 @@
 # 配置 ARM 交叉编译工具链
 #############################################
 # ---------设置 ARM-NONE-EABI-GCC 版本号
-GCC_REQUIRED_VERSION ?= 5.4.1
+GCC_REQUIRED_VERSION ?= 10.3.1
 # ---------获取本地 ARM-NONE-EABI-GCC 版本号
 GCC_VERSION = $(shell arm-none-eabi-gcc -dumpversion)
 # ---------判断ARM-NONE-EABI-GCC是否安装以及版本是否正确

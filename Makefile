@@ -7,6 +7,13 @@ V0    := @
 V1    := @
 
 ###############################################################################
+# 调试选项：
+#   INFO：编译时开启Debug信息（带有一定优化级别）
+#   GDB：开启Debug信息并关闭优化
+###############################################################################
+DEBUG     ?=
+
+###############################################################################
 # 硬件相关配置：
 ###############################################################################
 # --------------------------------------飞控名称
@@ -79,10 +86,23 @@ CROSS_CC    			:= $(ARM_SDK_PREFIX)gcc
 OBJCOPY     			:= $(ARM_SDK_PREFIX)objcopy
 SIZE       			    := $(ARM_SDK_PREFIX)size
 # --------------------------------------编译优化选项
+ifeq ($(DEBUG),GDB)
+# GDB：调试信息-不带编译优化
+DEBUG_FLAGS              = -ggdb3 -DDEBUG
+OPTIMISE_DEFAULT        := -Og
+LTO_FLAGS               := $(OPTIMISE_DEFAULT)
+else
+ifeq ($(DEBUG),INFO)
+# INFO：调试信息-带编译优化
+DEBUG_FLAGS              = -ggdb3
+endif
 OPTIMISATION_BASE       := -flto -fuse-linker-plugin -ffast-math
 OPTIMISE_DEFAULT        := -O2
 OPTIMISE_SPEED          := -Ofast
 OPTIMISE_SIZE           := -Os
+LTO_FLAGS               := $(OPTIMISATION_BASE) $(OPTIMISE_SPEED)
+endif
+CC_DEBUG_OPTIMISATION   := $(OPTIMISE_DEFAULT)
 CC_DEFAULT_OPTIMISATION := $(OPTIMISATION_BASE) $(OPTIMISE_DEFAULT)
 CC_SPEED_OPTIMISATION   := $(OPTIMISATION_BASE) $(OPTIMISE_SPEED)
 CC_SIZE_OPTIMISATION    := $(OPTIMISATION_BASE) $(OPTIMISE_SIZE)
@@ -91,13 +111,17 @@ CC_NO_OPTIMISATION      :=
 # ---------编译标志（c文件）-（-D：编译器宏定义[替换、条件编译]）
 CFLAGS      = $(ARCH_FLAGS) \
               $(DEVICE_FLAGS) \
+			  $(DEBUG_FLAGS) \
               $(addprefix -I,$(INCLUDE_DIRS)) \
               -DUSE_STDPERIPH_DRIVER \
               -D'__TARGET__="$(TARGET)"' 
 # ---------编译标志（s文件）
-ASFLAGS     = $(ARCH_FLAGS) 
+ASFLAGS     = $(ARCH_FLAGS) \
+			  $(DEBUG_FLAGS)
 # ---------链接标志（ld文件）
 LD_FLAGS    = $(ARCH_FLAGS) \
+              $(LTO_FLAGS) \
+              $(DEBUG_FLAGS) \
 			  -T$(LD_SCRIPT) \
               -Wl,-gc-sections,-Map,$(TARGET_MAP) \
               -Wl,-L$(LINKER_DIR) \
@@ -138,6 +162,16 @@ define compile_file
 	echo "%% ($(1)) $<" && $(CROSS_CC) -c $< -o $@ $(CFLAGS) $(2)
 endef
 # ---------2. 编译（隐晦规则[自动推导]）
+ifeq ($(DEBUG),GDB)
+$(OBJECT_DIR)/$(TARGET)/%.o: %.c
+	$(V1) mkdir -p $(dir $@)
+	$(V1) \
+	$(if $(findstring $<,$(NOT_OPTIMISED_SRC)), \
+		$(call compile_file,not optimised, $(CC_NO_OPTIMISATION)) \
+	, \
+		$(call compile_file,debug,$(CC_DEBUG_OPTIMISATION)) \
+	)
+else
 $(OBJECT_DIR)/$(TARGET)/%.o: %.c
 	@# 根据规则目标创建对应文件夹 - dir：取目录
 	$(V1) mkdir -p $(dir $@)
@@ -155,6 +189,7 @@ $(OBJECT_DIR)/$(TARGET)/%.o: %.c
 			) \
 		) \
 	)
+endif
 # --------------------------------------汇编s启动文件->o文件 - VPATH 
 $(OBJECT_DIR)/$(TARGET)/%.o: %.s
 	@# 根据规则目标创建对应文件夹 - dir：取目录
