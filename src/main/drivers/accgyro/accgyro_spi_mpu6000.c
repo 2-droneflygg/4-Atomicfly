@@ -163,7 +163,7 @@ static void mpu6000AccAndGyroInit(gyroDev_t *gyro)
 uint8_t mpu6000SpiDetect(const busDevice_t *bus)
 {
 	// 设置SPI分频系数
-    spiSetDivisor(bus->busdev_u.spi.instance, SPI_CLOCK_INITIALIZATION);
+    spiSetDivisor(bus->busdev_u.spi.instance, SPI_CLOCK_SLOW);
 	// 写寄存器数据
     spiBusWriteRegister(bus, MPU_RA_PWR_MGMT_1, BIT_H_RESET);
 	// 判断传感器是否在线
