@@ -180,4 +180,5 @@ SIZE_OPTIMISED_SRC := $(SIZE_OPTIMISED_SRC) \
             osd/osd_elements.c \
             sensors/gyro_init.c \
             drivers/accgyro/accgyro_spi_mpu6000.c \
+            drivers/accgyro/accgyro_spi_icm426xx.c \
 			

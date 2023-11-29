@@ -26,6 +26,7 @@
 
 #include "drivers/accgyro/accgyro.h"
 #include "drivers/accgyro/accgyro_spi_mpu6000.h"
+#include "drivers/accgyro/accgyro_spi_icm426xx.h"
 #include "drivers/accgyro/accgyro_mpu.h"
 
 #include "pg/pg.h"
@@ -152,6 +153,9 @@ typedef uint8_t (*gyroSpiDetectFn_t)(const busDevice_t *bus);
 static gyroSpiDetectFn_t gyroSpiDetectFnTable[] = {
 #ifdef USE_GYRO_SPI_MPU6000
     mpu6000SpiDetect,
+#endif
+#if defined(USE_GYRO_SPI_ICM42605) || defined(USE_GYRO_SPI_ICM42688P)
+    icm426xxSpiDetect,
 #endif
 	// 避免使用空数组
     NULL     

@@ -13,11 +13,17 @@
 #include "drivers/sensor.h"
 #include "drivers/accgyro/accgyro_mpu.h"
 
+#define GYRO_SCALE_2000DPS (2000.0f / (1 << 15))   // 16.384 dps/lsb scalefactor for 2000dps sensors
+#define GYRO_SCALE_2048DPS (2048.0f / (1 << 15))   //     16 dps/lsb scalefactor for 2048dps sensors
+#define GYRO_SCALE_4000DPS (4000.0f / (1 << 15))   //  8.192 dps/lsb scalefactor for 4000dps sensors
+
 /* -----------------------------陀螺仪硬件枚举------------------------------ */	
 typedef enum {
     GYRO_NONE = 0,
     GYRO_DEFAULT,
     GYRO_MPU6000,
+    GYRO_ICM42605,
+    GYRO_ICM42688P,
 } gyroHardware_e;
 
 /* --------------------------陀螺仪硬件滤波器枚举--------------------------- */	

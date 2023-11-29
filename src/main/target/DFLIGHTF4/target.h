@@ -112,9 +112,13 @@
 // 使用陀螺仪[MPU6000]
 #define USE_GYRO
 #define USE_GYRO_SPI_MPU6000
+#define USE_GYRO_SPI_ICM42688P
+
 // 使用加速度计[MPU6000]
 #define USE_ACC
 #define USE_ACC_SPI_MPU6000
+#define USE_ACC_SPI_ICM42688P
+
 // 陀螺仪引脚配置
 #define GYRO_1_CS_PIN           PC2
 #define GYRO_1_SPI_INSTANCE     SPI1

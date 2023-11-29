@@ -18,6 +18,7 @@
 #include "drivers/accgyro/accgyro.h"
 #include "drivers/accgyro/accgyro_mpu.h"
 #include "drivers/accgyro/accgyro_spi_mpu6000.h"
+#include "drivers/accgyro/accgyro_spi_icm426xx.h"
 #include "drivers/accgyro/gyro_sync.h"
 
 #include "fc/runtime_config.h"
@@ -230,6 +231,25 @@ STATIC_UNIT_TESTED gyroHardware_e gyroDetect(gyroDev_t *dev)
 	        }
 	        FALLTHROUGH;
 #endif
+
+#if defined(USE_GYRO_SPI_ICM42605) || defined(USE_GYRO_SPI_ICM42688P)
+        case GYRO_ICM42688P:
+            if (icm426xxSpiGyroDetect(dev)) {
+                switch (dev->mpuDetectionResult.sensor) {
+                case ICM_42605_SPI:
+                    gyroHardware = GYRO_ICM42605;
+                    break;
+                case ICM_42688P_SPI:
+                    gyroHardware = GYRO_ICM42688P;
+                    break;
+                default:
+                    gyroHardware = GYRO_NONE;
+                    break;
+                }
+                break;
+            }
+            FALLTHROUGH;
+#endif
 	    default:
 	        gyroHardware = GYRO_NONE;
     }
@@ -250,7 +270,7 @@ STATIC_UNIT_TESTED gyroHardware_e gyroDetect(gyroDev_t *dev)
 **********************************************************************/
 static bool gyroDetectSensor(gyroSensor_t *gyroSensor, const gyroDeviceConfig_t *config)
 {
-#if defined(USE_GYRO_SPI_MPU6000) 
+#if defined(USE_GYRO_SPI_MPU6000) ||defined(USE_GYRO_SPI_ICM42688P)
     bool gyroFound = mpuDetect(&gyroSensor->gyroDev, config);
 #if !defined(USE_FAKE_GYRO)        // 允许求助于伪造的accgyro，如果定义
     if (!gyroFound) {

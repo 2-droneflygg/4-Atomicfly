@@ -121,6 +121,8 @@ typedef enum {
 typedef enum {
     MPU_NONE,
     MPU_60x0_SPI,
+    ICM_42605_SPI,
+    ICM_42688P_SPI,
 } mpuSensor_e;
 
 /* --------------------------MPU检测结果结构体----------------------------- */	
