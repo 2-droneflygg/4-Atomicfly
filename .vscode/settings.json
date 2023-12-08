@@ -1,6 +1,7 @@
 {
     "makefile.extensionOutputFolder": "./.vscode",
     "files.associations": {
+        "*.m": "matlab",
         "bit": "c",
         "compare": "c",
         "cstddef": "c",
@@ -8,7 +9,8 @@
         "type_traits": "c",
         "xmemory": "c",
         "xutility": "c",
-        "adc.h": "c"
+        "adc.h": "c",
+        "resource.h": "c"
     },
     "cortex-debug.variableUseNaturalFormat": false
 }

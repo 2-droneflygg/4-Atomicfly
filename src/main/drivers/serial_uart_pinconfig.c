@@ -20,7 +20,7 @@ FAST_RAM_ZERO_INIT uartDevice_t *uartDevmap[UARTDEV_COUNT_MAX]; // 串口设备�
 
 /**********************************************************************
 函数名称：uartPinConfigure
-函数功能：串口引脚配置
+函数功能：串口引脚配置 ,根据pSerialPinConfig的配置，如果配置正确，则注册硬件
 函数形参：serialPinConfig_t结构体
 函数返回值：None
 函数描述：None

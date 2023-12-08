@@ -40,6 +40,27 @@ const uartHardware_t uartHardware[UARTDEV_COUNT] = {
         .rxBufferSize = sizeof(uart1RxBuffer),
     },
 #endif
+#ifdef USE_UART2
+    {
+        .device = UARTDEV_2,
+        .reg = USART2,
+        .rxDMAChannel = DMA_Channel_4,
+        .txDMAChannel = DMA_Channel_4,
+        .rxPins = { { DEFIO_TAG_E(PA3) }, { DEFIO_TAG_E(PD6) },
+            },
+        .txPins = { { DEFIO_TAG_E(PA2) }, { DEFIO_TAG_E(PD5) },
+            },
+        .af = GPIO_AF_USART2,
+        .rcc = RCC_APB1(USART2),
+        .irqn = USART2_IRQn,
+        .txPriority = NVIC_PRIO_SERIALUART2_TXDMA,
+        .rxPriority = NVIC_PRIO_SERIALUART2,
+        .txBuffer = uart2TxBuffer,
+        .rxBuffer = uart2RxBuffer,
+        .txBufferSize = sizeof(uart2TxBuffer),
+        .rxBufferSize = sizeof(uart2RxBuffer),
+    },
+#endif
 #ifdef USE_UART3
     {
         .device = UARTDEV_3,

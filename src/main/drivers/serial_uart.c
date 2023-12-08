@@ -32,6 +32,9 @@
 #ifdef USE_UART1
 UART_BUFFERS(1);
 #endif
+#ifdef USE_UART2
+UART_BUFFERS(2);
+#endif
 #ifdef USE_UART3
 UART_BUFFERS(3);
 #endif
@@ -337,6 +340,9 @@ void uartConfigureDma(uartDevice_t *uartdev)
 
 #ifdef USE_UART1
 UART_IRQHandler(USART, 1, 1) 	// USART1 Rx/Tx IRQ Handler
+#endif
+#ifdef USE_UART2
+UART_IRQHandler(USART, 2, 2) 	// USART2 Rx/Tx IRQ Handler
 #endif
 #ifdef USE_UART3
 UART_IRQHandler(USART, 3, 3) 	// USART3 Rx/Tx IRQ Handler

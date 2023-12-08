@@ -24,6 +24,9 @@ static uartDmaopt_t uartDmaopt[] = {
 #ifdef USE_UART1
     { UARTDEV_1, UART1_TX_DMA_OPT, UART1_RX_DMA_OPT },
 #endif
+#ifdef USE_UART2
+    { UARTDEV_2, UART2_TX_DMA_OPT, UART2_RX_DMA_OPT },
+#endif
 #ifdef USE_UART3
     { UARTDEV_3, UART3_TX_DMA_OPT, UART3_RX_DMA_OPT },
 #endif

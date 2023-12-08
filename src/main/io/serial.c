@@ -46,6 +46,9 @@ const serialPortIdentifier_e serialPortIdentifiers[SERIAL_PORT_COUNT] = {
 #ifdef USE_UART1
     SERIAL_PORT_USART1,
 #endif
+#ifdef USE_UART2
+    SERIAL_PORT_USART2,
+#endif
 #ifdef USE_UART3
     SERIAL_PORT_USART3,
 #endif
@@ -82,8 +85,10 @@ void pgResetFn_serialConfig(serialConfig_t *serialConfig)
     serialConfig->serial_update_rate_hz = 100;
 	// USART1 - GPS
 	serialConfig->portConfigs[1].functionMask = FUNCTION_GPS;
+    // USART2 - 串行接收机
+    serialConfig->portConfigs[2].functionMask = FUNCTION_RX_SERIAL;
 	// USART6 - 串行接收机
-	serialConfig->portConfigs[3].functionMask = FUNCTION_RX_SERIAL;
+	//serialConfig->portConfigs[3].functionMask = FUNCTION_RX_SERIAL;
 	// 软串口1 - 图传控制
 	serialConfig->portConfigs[4].functionMask = FUNCTION_VTX_SMARTAUDIO;
 }
@@ -228,6 +233,9 @@ serialPort_t *openSerialPort(serialPortIdentifier_e identifier,serialPortFunctio
 #if defined(USE_UART)
 #ifdef USE_UART1
         case SERIAL_PORT_USART1:
+#endif
+#ifdef USE_UART2
+        case SERIAL_PORT_USART2:
 #endif
 #ifdef USE_UART3
         case SERIAL_PORT_USART3:

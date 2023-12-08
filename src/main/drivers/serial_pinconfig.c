@@ -29,6 +29,17 @@
 #  define INVERTER_PIN_UART1 NONE
 # endif
 #endif
+#ifdef USE_UART2
+# if !defined(UART2_RX_PIN)
+#  define UART2_RX_PIN NONE
+# endif
+# if !defined(UART2_TX_PIN)
+#  define UART2_TX_PIN NONE
+# endif
+# if !defined(INVERTER_PIN_UART2)
+#  define INVERTER_PIN_UART2 NONE
+# endif
+#endif
 #ifdef USE_UART3
 # if !defined(UART3_RX_PIN)
 #  define UART3_RX_PIN NONE
@@ -80,6 +91,9 @@ static const serialDefaultPin_t serialDefaultPin[] = {
 #ifdef USE_UART1
     { SERIAL_PORT_USART1, IO_TAG(UART1_RX_PIN), IO_TAG(UART1_TX_PIN), IO_TAG(INVERTER_PIN_UART1) },
 #endif
+#ifdef USE_UART2
+    { SERIAL_PORT_USART2, IO_TAG(UART2_RX_PIN), IO_TAG(UART2_TX_PIN), IO_TAG(INVERTER_PIN_UART2) },
+#endif
 #ifdef USE_UART3
     { SERIAL_PORT_USART3, IO_TAG(UART3_RX_PIN), IO_TAG(UART3_TX_PIN), IO_TAG(INVERTER_PIN_UART3) },
 #endif
@@ -94,7 +108,7 @@ static const serialDefaultPin_t serialDefaultPin[] = {
 #endif
 };
 
-PG_REGISTER_WITH_RESET_FN(serialPinConfig_t, serialPinConfig, PG_SERIAL_PIN_CONFIG, 0);
+PG_REGISTER_WITH_RESET_FN(serialPinConfig_t, serialPinConfig, PG_SERIAL_PIN_CONFIG, 1);
 void pgResetFn_serialPinConfig(serialPinConfig_t *serialPinConfig)
 {
 	// 遍历所有串口引脚配置信息
